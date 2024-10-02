@@ -1,38 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:navigation_custom_widgets/Likes.dart';
-import 'package:navigation_custom_widgets/Profile.dart';
+import 'package:navigation_custom_widgets/likes.dart';
+import 'package:navigation_custom_widgets/news.dart';
+import 'package:navigation_custom_widgets/profile.dart';
 
 void main() {
-  runApp(const MainApp());
+  runApp(const AppHome());
 }
 
-class MainApp extends StatelessWidget {
+class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
   @override
+  State<MainApp> createState() => _MainAppState();
+}
+
+class _MainAppState extends State<MainApp> {
+  @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        bottomNavigationBar: NavigationBar(
-          destinations: const [
-            NavigationDestination(icon: Icon(Icons.newspaper), label: "News"),
-            NavigationDestination(
-                icon: Icon(Icons.heart_broken), label: "Likes"),
-            NavigationDestination(
-                icon: Icon(Icons.photo_camera_front_outlined), label: "Profile")
-          ],
-        ),
-        body: const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Likes",
-                style: TextStyle(fontSize: 20),
-              ),
-              Icon(Icons.table_chart_outlined),
-            ],
-          ),
+        body: Center(
+          child: SizedBox(child: Text("Homescreen")),
         ),
       ),
     );
@@ -47,12 +35,41 @@ class AppHome extends StatefulWidget {
 }
 
 class _AppHomeState extends State<AppHome> {
+  int currentIndex = 0;
+  List<Widget> myscreens = [
+    const NewsApp(),
+    const LikeApp(),
+    const ProfileApp(),
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        appBar: AppBar(
-      title: Text("Titel"),
-      actions: [],
-    ));
+    return MaterialApp(
+      home: Scaffold(
+          appBar: AppBar(
+            title: const Text("Titel"),
+            actions: const [],
+            backgroundColor: Colors.green,
+          ),
+          bottomNavigationBar: NavigationBar(
+            onDestinationSelected: (int index) {
+              setState(() {
+                currentIndex = index;
+              });
+            },
+            selectedIndex: currentIndex,
+            destinations: const [
+              NavigationDestination(icon: Icon(Icons.newspaper), label: "News"),
+              NavigationDestination(
+                  icon: Icon(Icons.heart_broken), label: "Likes"),
+              NavigationDestination(
+                  icon: Icon(Icons.photo_camera_front_outlined),
+                  label: "Profile")
+            ],
+          ),
+          body: Center(
+            child: myscreens[currentIndex],
+          )),
+    );
   }
 }

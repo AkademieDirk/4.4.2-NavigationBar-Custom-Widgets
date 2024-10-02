@@ -5,9 +5,9 @@ class LikeApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
       home: Scaffold(
-        body: const Center(
+        body: Center(
           child: SafeArea(
               child: Column(
             children: [
